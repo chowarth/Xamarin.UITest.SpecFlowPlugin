@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SpecFlow.NUnit" Version="3.5.14" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xamarin.UITest.SpecFlowPlugin\Xamarin.UITest.SpecFlowPlugin.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <_XamarinUITestGeneratorPluginFramework Condition=" '$(MSBuildRuntimeType)' != 'Core'">net471</_XamarinUITestGeneratorPluginFramework>
+    <_XamarinUITestGeneratorPluginPath>..\Xamarin.UITest.SpecFlowPlugin\bin\Debug\$(_XamarinUITestGeneratorPluginFramework)\Xamarin.UITest.SpecFlowPlugin.dll</_XamarinUITestGeneratorPluginPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SpecFlowGeneratorPlugins Include="$(_XamarinUITestGeneratorPluginPath)" />
+  </ItemGroup>
+
+</Project>

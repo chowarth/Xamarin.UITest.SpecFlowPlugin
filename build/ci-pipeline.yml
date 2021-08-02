@@ -1,0 +1,25 @@
+# YAML schema reference: https://aka.ms/yaml
+name: '$(Build.SourceBranchName) #$(Rev:r)'
+
+parameters:
+- name: Configuration
+  displayName: 'Build configuration'
+  type: string
+  default: Release
+  values:
+    - Debug
+    - Release
+
+variables:
+  - group: pipeline-variables
+
+trigger: none
+
+pr:
+- main
+
+jobs:
+- template: ./jobs/build-package.yml
+  parameters:
+    projects: $(build.Project)
+    configuration: ${{ parameters.Configuration }}

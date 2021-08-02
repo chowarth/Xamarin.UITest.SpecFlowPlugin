@@ -1,0 +1,55 @@
+# YAML schema reference: https://aka.ms/yaml
+name: '$(Build.SourceBranchName) #$(Rev:r)'
+
+parameters:
+- name: Configuration
+  displayName: 'Build configuration'
+  type: string
+  default: Release
+  values:
+    - Debug
+    - Release
+
+variables:
+  - group: pipeline-variables
+
+trigger:
+  tags:
+    include:
+      - 'refs/tags/v*'
+
+pr: none
+
+stages:
+- stage: Build
+  jobs:
+  - template: ./jobs/build-package.yml
+    parameters:
+      projects: $(build.Project)
+      configuration: ${{ parameters.Configuration }}
+
+# Publish to NuGet if the build was triggered by a tag
+- stage: NuGet
+  dependsOn: Build
+  jobs:
+  - job:
+    displayName: 'Push to NuGet.org'
+    pool:
+      name: 'Azure Pipelines'
+      vmImage: 'windows-latest'
+    
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        artifactName: 'drop'
+        downloadPath: '$(Pipeline.Workspace)'
+    
+    - task: DotNetCoreCLI@2
+      displayName: "dotnet push: $(nuget.SourceUrl)"
+      inputs:
+        command: custom
+        custom: nuget
+        arguments: >
+          push $(build.PackagesToPush)
+          -s $(nuget.SourceUrl)
+          -k $(nuget.ApiKey)

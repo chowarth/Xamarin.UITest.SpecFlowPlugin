@@ -1,0 +1,40 @@
+#### PARAMETERS
+parameters:
+# The project(s) to pack
+- name: projects
+  type: string
+# The configuration to use e.g. Debug / Release
+- name: configuration
+  type: string
+# (Optional) The agent pool to use for the job
+- name: poolName
+  type: string
+  default: 'Azure Pipelines'
+# (Optional) The agent image to use for the job
+- name: poolImage
+  type: string
+  default: 'windows-latest'
+
+#### JOBS ####
+jobs:
+- job:
+  displayName: 'Build & Pack'
+  pool:
+    name: ${{ parameters.poolName }}
+    vmImage: ${{ parameters.poolImage }}
+
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: "dotnet pack"
+    inputs:
+      command: 'pack'
+      configurationToPack: '--configuration ${{ parameters.Configuration }}'
+      packagesToPack: ${{ parameters.projects }}
+      includesymbols: true
+      versioningScheme: 'off'
+
+  - task: PublishBuildArtifacts@1
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    inputs:
+      artifactName: 'drop'
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'

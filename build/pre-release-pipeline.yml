@@ -1,0 +1,55 @@
+# YAML schema reference: https://aka.ms/yaml
+name: '$(Build.SourceBranchName) #$(Rev:r)'
+
+parameters:
+- name: Configuration
+  displayName: 'Build configuration'
+  type: string
+  default: Release
+  values:
+    - Debug
+    - Release
+
+variables:
+  - group: pipeline-variables
+
+trigger:
+  branches:
+    include:
+      - main
+
+pr: none
+
+stages:
+- stage: Build
+  jobs:
+  - template: ./jobs/build-package.yml
+    parameters:
+      projects: $(build.Project)
+      configuration: ${{ parameters.Configuration }}
+
+# Deploy to DevOps Artifacts feed if on 'main'
+- stage: DevOps
+  dependsOn: Build
+  jobs:
+  - job:
+    displayName: 'Push to Artifacts'
+    pool:
+      name: 'Azure Pipelines'
+      vmImage: 'windows-latest'
+    
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        artifactName: 'drop'
+        downloadPath: '$(Pipeline.Workspace)'
+
+    - task: DotNetCoreCLI@2
+      displayName: "dotnet push"
+      inputs:
+        command: 'push'
+        nobuild: true
+        nugetFeedType: 'internal'
+        versioningScheme: 'off'
+        feedPublish: '$(build.ArtifactFeed)'
+        packagesToPush: '$(build.PackagesToPush)'
