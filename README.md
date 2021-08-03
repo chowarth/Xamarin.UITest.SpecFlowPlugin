@@ -19,7 +19,7 @@ This is achieved by taking advantage of [SpecFlow feature tags](https://docs.spe
     - Add the following two methods:
 
         ```csharp
-        public static void StartApp(Xamarin.UITest.Platform platform)
+        public static void Start(Xamarin.UITest.Platform platform)
         {
             // Configure Xamarin.UITest e.g.
             if(platform == Platform.Android)
