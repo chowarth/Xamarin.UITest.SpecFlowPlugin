@@ -8,9 +8,9 @@ namespace Xamarin.UITest.SpecFlowPlugin
         public const string UITEST_TAG_DELIMETER = ":";
         public const string PLATFORM_DELIMETER = ",";
 
-        public const string APPINITIALISER = "AppInitialiser";
-        public const string APPINITIALISER_STARTAPP = "StartApp";
-        public const string APPINITIALISER_SHUTDOWN = "Shutdown";
+        public const string APPMANAGER = "AppManager";
+        public const string APPMANAGER_START = "Start";
+        public const string APPMANAGER_SHUTDOWN = "Shutdown";
         public const string PLATFORM_PARAMETER = "platform";
         public const string PLATFORM_FIELD = "_platform";
     }

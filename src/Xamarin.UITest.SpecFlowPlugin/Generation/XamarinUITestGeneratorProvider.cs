@@ -21,16 +21,16 @@ namespace Xamarin.UITest.SpecFlowPlugin
             // Create constructor
             AddConstructor(generationContext.TestClass);
 
-            // Add AppInitialiser.StartApp call in Setup:
+            // Add AppManager.Start call in Setup:
             AddMethodStatement(generationContext.TestInitializeMethod,
-                Constants.APPINITIALISER,
-                Constants.APPINITIALISER_STARTAPP,
+                Constants.APPMANAGER,
+                Constants.APPMANAGER_START,
                 new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), Constants.PLATFORM_FIELD));
 
-            // Add AppInitialiser.Shutdown call in TearDown:
+            // Add AppManager.Shutdown call in TearDown:
             AddMethodStatement(generationContext.TestCleanupMethod,
-                Constants.APPINITIALISER,
-                Constants.APPINITIALISER_SHUTDOWN);
+                Constants.APPMANAGER,
+                Constants.APPMANAGER_SHUTDOWN);
 
             base.FinalizeTestClass(generationContext);
         }
