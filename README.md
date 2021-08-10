@@ -14,7 +14,7 @@ This is achieved by taking advantage of [SpecFlow feature tags](https://docs.spe
     - [Mac](https://github.com/straighteight/SpecFlow-VS-Mac-Integration)
 1. Create a new **Xamarin.UITest Cross-Platform Test Project**
 1. Install the `SpecFlow.NUnit` NuGet package
-1. Now you can install the `Xamarin.UITests.SpecFlowPlugin` package
+1. Now you can install the `Xamarin.UITest.SpecFlowPlugin` package
 1. Create an `AppManager` class at the **root** of your UI test project. This is going to be the bridge between the SpecFlow generated test fixture and `Xamarin.UITest`
     - Add the following two methods:
 
