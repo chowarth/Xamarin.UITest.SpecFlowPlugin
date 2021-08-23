@@ -11,6 +11,10 @@ namespace Xamarin.UITest.SpecFlowPlugin
         public const string APPMANAGER = "AppManager";
         public const string APPMANAGER_START = "Start";
         public const string APPMANAGER_SHUTDOWN = "Shutdown";
+
+        public const string XAMARIN_UITEST_PLATFORM = "Xamarin.UITest.Platform";
+        public const string PLATFORM_IOS = "iOS";
+        public const string PLATFORM_ANDROID = "Android";
         public const string PLATFORM_PARAMETER = "platform";
         public const string PLATFORM_FIELD = "_platform";
     }

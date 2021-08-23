@@ -44,27 +44,24 @@ namespace Xamarin.UITest.SpecFlowPlugin
             // Parse uitest tags into TestFixture attributes with parameters
             string[] tagParts = tagName.Split(new[] { Constants.UITEST_TAG_DELIMETER }, StringSplitOptions.RemoveEmptyEntries);
 
-            string iOS = $"{Platform.iOS}";
-            string Android = $"{Platform.Android}";
-
             // Just a uitest tag adds both iOS and Android
             if (tagParts.Length == 1)
             {
-                AddTestFixtureAttributeWithPlatform(testClass, iOS);
-                AddTestFixtureAttributeWithPlatform(testClass, Android);
+                AddTestFixtureAttributeWithPlatform(testClass, Constants.PLATFORM_IOS);
+                AddTestFixtureAttributeWithPlatform(testClass, Constants.PLATFORM_ANDROID);
             }
             else
             {
                 string[] platforms = tagParts[1]?.Split(new[] { Constants.PLATFORM_DELIMETER }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var platform in platforms ?? Enumerable.Empty<string>())
                 {
-                    if (platform.Equals(iOS, StringComparison.OrdinalIgnoreCase))
+                    if (platform.Equals(Constants.PLATFORM_IOS, StringComparison.OrdinalIgnoreCase))
                     {
-                        AddTestFixtureAttributeWithPlatform(testClass, iOS);
+                        AddTestFixtureAttributeWithPlatform(testClass, Constants.PLATFORM_IOS);
                     }
-                    else if (platform.Equals(Android, StringComparison.OrdinalIgnoreCase))
+                    else if (platform.Equals(Constants.PLATFORM_ANDROID, StringComparison.OrdinalIgnoreCase))
                     {
-                        AddTestFixtureAttributeWithPlatform(testClass, Android);
+                        AddTestFixtureAttributeWithPlatform(testClass, Constants.PLATFORM_ANDROID);
                     }
                 }
             }
@@ -74,7 +71,7 @@ namespace Xamarin.UITest.SpecFlowPlugin
         {
             _codeDomHelper.AddAttribute(codeTypeMember, Constants.TESTFIXTURE_ATTR, new CodeAttributeArgument()
             {
-                Value = new CodeFieldReferenceExpression(new CodeTypeReferenceExpression(typeof(Platform)), platform)
+                Value = new CodeFieldReferenceExpression(new CodeTypeReferenceExpression(Constants.XAMARIN_UITEST_PLATFORM), platform)
             });
         }
     }

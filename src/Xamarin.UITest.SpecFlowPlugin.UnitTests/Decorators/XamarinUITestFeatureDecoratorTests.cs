@@ -1,6 +1,5 @@
 ﻿using TechTalk.SpecFlow.Generator.CodeDom;
 using TechTalk.SpecFlow.Generator.UnitTestConverter;
-using Xamarin.UITest.SpecFlowPlugin;
 using Xunit;
 
 namespace Xamarin.UITest.SpecFlowPlugin.UnitTests.Decorators

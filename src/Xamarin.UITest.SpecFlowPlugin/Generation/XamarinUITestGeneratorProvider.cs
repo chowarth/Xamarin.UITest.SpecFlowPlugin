@@ -16,7 +16,7 @@ namespace Xamarin.UITest.SpecFlowPlugin
         public override void FinalizeTestClass(TestClassGenerationContext generationContext)
         {
             // Declare platform field
-            DeclareField(generationContext.TestClass, typeof(Platform), Constants.PLATFORM_FIELD);
+            DeclareField(generationContext.TestClass, Constants.XAMARIN_UITEST_PLATFORM, Constants.PLATFORM_FIELD);
 
             // Create constructor
             AddConstructor(generationContext.TestClass);
@@ -35,7 +35,7 @@ namespace Xamarin.UITest.SpecFlowPlugin
             base.FinalizeTestClass(generationContext);
         }
 
-        private void DeclareField(CodeTypeDeclaration classDeclaration, Type type, string value)
+        private void DeclareField(CodeTypeDeclaration classDeclaration, string type, string value)
         {
             classDeclaration.Members.Add(new CodeMemberField(type, value));
         }
@@ -47,7 +47,7 @@ namespace Xamarin.UITest.SpecFlowPlugin
                 Attributes = MemberAttributes.Public
             };
 
-            constructor.Parameters.Add(new CodeParameterDeclarationExpression(typeof(Platform), Constants.PLATFORM_PARAMETER));
+            constructor.Parameters.Add(new CodeParameterDeclarationExpression(Constants.XAMARIN_UITEST_PLATFORM, Constants.PLATFORM_PARAMETER));
 
             // Assign constructor parameter to field
             constructor.Statements.Add(new CodeAssignStatement(
