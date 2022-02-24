@@ -69,10 +69,10 @@ namespace Xamarin.UITest.SpecFlowPlugin
 
         private void AddTestFixtureAttributeWithPlatform(CodeTypeDeclaration codeTypeMember, string platform)
         {
-            _codeDomHelper.AddAttribute(codeTypeMember, Constants.TESTFIXTURE_ATTR, new CodeAttributeArgument()
-            {
-                Value = new CodeFieldReferenceExpression(new CodeTypeReferenceExpression(Constants.XAMARIN_UITEST_PLATFORM), platform)
-            });
+            var platformArg = new CodeAttributeArgument(new CodeFieldReferenceExpression(new CodeTypeReferenceExpression(Constants.XAMARIN_UITEST_PLATFORM), platform));
+            var categoryArg = new CodeAttributeArgument("Category", new CodePrimitiveExpression(platform));
+
+            _codeDomHelper.AddAttribute(codeTypeMember, Constants.TESTFIXTURE_ATTR, platformArg, categoryArg);
         }
     }
 }
