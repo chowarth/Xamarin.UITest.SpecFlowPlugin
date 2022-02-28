@@ -7,6 +7,8 @@ Unofficial SpecFlow plugin for `Xamarin.UITest`. I decided to create this plugin
 
 This is achieved by taking advantage of [SpecFlow feature tags](https://docs.specflow.org/projects/specflow/en/latest/Gherkin/Gherkin-Reference.html#tags) and replacing the default `NUnit.TestFixtureAttribute` on the generated test fixture.
 
+> **NOTE**: Each platform is also added as a category on the appropriate `NUnit.TextFixtureAttribute` so that you can then use them with the `--include-category` argument when running UI Tests.
+
 ## Getting Started
 
 1. The first thing to do is to install the SpecFlow extension for Visual Studio:
@@ -42,16 +44,39 @@ This is achieved by taking advantage of [SpecFlow feature tags](https://docs.spe
     - `@uitest:android` will add `Platform.Android` as a test fixture attribute
     - Any other tags will be treated as normal SpecFlow feature tags
 
-    Example:
+## Example output
 
-    ```text
-    @uitest
-    Feature: UITest category fixture generation 
-        Simple calculator for adding two numbers
+```text
+@uitest
+Feature: UITest category fixture generation 
+    Simple calculator for adding two numbers
 
-    Scenario: Add two numbers
-        Given the first number is 50
-        And the second number is 70
-        When the two numbers are added
-        Then the result should be 120
-    ```
+Scenario: Add two numbers
+    ...
+```
+
+The above feature will produce the following output:
+
+```csharp
+[NUnit.Framework.TestFixtureAttribute(Xamarin.UITest.Platform.iOS, Category="iOS")]
+[NUnit.Framework.TestFixtureAttribute(Xamarin.UITest.Platform.Android, Category="Android")]
+public partial class ExampleFeature
+{
+    ...
+
+    [NUnit.Framework.SetUpAttribute()]
+    public virtual void TestInitialize()
+    {
+        AppManager.Start(this._platform);
+    }
+    
+    [NUnit.Framework.TearDownAttribute()]
+    public virtual void TestTearDown()
+    {
+        testRunner.OnScenarioEnd();
+        AppManager.Shutdown();
+    }
+
+    ...
+}
+```
